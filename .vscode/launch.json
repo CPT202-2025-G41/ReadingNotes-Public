@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ReadingnotesApplication<readingnotes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "cn.edu.xjtlu.readingnotes.ReadingnotesApplication",
+            "projectName": "readingnotes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

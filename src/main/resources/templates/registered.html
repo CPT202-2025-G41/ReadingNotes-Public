@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta th:if="${jump}" http-equiv="refresh" content="3, url=/login">
+    <title th:text="${title} + ' jump - ReadingNotes'"></title>
+</head>
+
+<body>
+    <p th:text="${msg}" style="white-space: pre-line"></p>
+
+    <p><a th:href="@{/login}">Go to login page</a></p>
+</body>
+
+</html>

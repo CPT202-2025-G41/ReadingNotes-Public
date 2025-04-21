@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main}, 'Edit Log')}">
+<body>
+    <main class="container">
+        <h1 class="my-4" th:text="${log?.id} ? 'Edit Log' : 'New Log'"></h1>
+        <form th:action="${log?.id} ? @{'/api/log/' + ${log.id}} : @{/api/log?action=create}" 
+              method="post" class="col-md-8">
+            <input type="hidden" name="_method" th:value="${log?.id} ? 'put' : 'post'">
+            
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                
+                <input type="text" class="form-control" name="title" 
+                       th:value="${log?.title}" required minlength="3" maxlength="100">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Author</label>
+                <input type="text" class="form-control" name="author"
+                       th:value="${log?.author}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Reading Date</label>
+                <input type="date" class="form-control" name="date"
+                       th:value="${#temporals.format(log?.date, 'yyyy-MM-dd')}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Reading Time (minutes)</label>
+                <input type="number" class="form-control" name="spentTime"
+                       th:value="${log?.spentTime}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                <textarea class="form-control" name="note" rows="4"
+                          th:text="${log?.note}"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <script th:if="${local}">
+            window.addEventListener('load', function () {
+                const date = new Date();
+                const offset = date.getTimezoneOffset();
+                document.querySelector('input[type="date"]').value = 
+                    new Date(date.getTime() - (offset * 60 * 1000))
+                        .toISOString().split('T')[0];
+            })
+        </script>
+    </main>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main}, 'Admin Panel')}">
+<body>
+    <main class="container">
+        <h1 class="my-4">Admin Panel</h1>
+        
+        <div class="mb-5">
+            <h3>User Management</h3>
+            <table class="table">
+                
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Activated</th>  
+                        <th>Lock Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td>
+                        <span th:text="${user.isEnabled} ? 'Yes' : 'No'" 
+                              th:class="${user.isEnabled} ? 'text-success' : 'text-danger'"></span>
+                    </td>
+                    <td th:text="${user.isNonLocked} ? 'Active' : 'Blocked'"></td>
+                    <td>
+                        <form th:if="${user.role == T(cn.edu.xjtlu.readingnotes.util.Role).USER}" th:action="@{/log?action=review}" method="post"
+                              class="d-inline">
+                            <input type="hidden" name="user_id" th:value="${user.id}">
+                            <input type="hidden" name="start_date" value="">
+                            <input type="hidden" name="end_date" value="">
+                            <button type="submit" class="btn btn-sm btn-info me-2">
+                                Review
+                            </button>
+                        </form>
+
+                        <!-- Newly added activation button -->
+                        <a th:href="@{'/admin/user/' + ${user.id} + '/activate'}"
+                           class="btn btn-sm btn-info me-2" 
+                           th:if="${not user.isEnabled}">Activate</a>
+                        
+                        <!-- The original lock status button remains unchanged -->
+                        <a th:href="@{'/admin/user/' + ${user.id} + '/status?active=false'}"
+                           class="btn btn-sm btn-warning" 
+                           th:if="${user.isNonLocked}">Block</a>
+                        <a th:href="@{'/admin/user/' + ${user.id} + '/status?active=true'}"
+                           class="btn btn-sm btn-success" 
+                           th:unless="${user.isNonLocked}">Unblock</a>
+                        
+                        <form th:action="@{/admin/user/} + ${user.id}" method="post"
+                              class="d-inline">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="btn btn-sm btn-danger ms-2">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

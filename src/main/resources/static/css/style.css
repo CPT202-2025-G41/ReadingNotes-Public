@@ -1,0 +1,62 @@
+body {
+    background-color: #f8f9fa;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+
+body.login-page {
+    background-image: url('../images/login-bg.jpg');
+}
+
+
+body.logs-page {
+    background-image: url('../images/logs-bg.jpg');
+}
+
+
+body.profile-page {
+    background-image: url('../images/profile-bg.jpg');
+}
+
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: -1;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    background: rgba(255, 255, 255, 0.95);
+}
+.card {
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    transition: transform .2s;
+}
+.card:hover {
+    transform: translateY(-2px);
+}
+
+
+.navbar-avatar {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.navbar-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-avatar img {
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}

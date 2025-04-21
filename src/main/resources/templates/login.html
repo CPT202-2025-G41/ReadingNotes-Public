@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/layout :: layout(~{::main}, 'Login')}">
+<body class="login-page">
+    <main class="container">
+        <h1 class="my-4">User Login</h1>
+        <div th:if="${param.registered}" class="alert alert-success mt-3">
+            Registration successful! Please login.
+        </div>
+        <div th:if="${param.unactivated}" class="alert alert-warning">
+            The account is not activated. Please check your email
+            <a th:href="@{/resend-verification?email=${param.email}}">Resend the activation email</a>
+        </div>
+        <form th:action="@{/login}" method="post" class="col-md-6">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" 
+                       placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password"
+                       placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a th:href="@{/register}" class="btn btn-link">Create Account</a>
+        </form>
+    </main>
+</body>
+</html>

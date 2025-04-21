@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::main}, 'Log Detail')}">
+<body>
+    <main class="container">
+        <div class="d-flex justify-content-between my-4">
+            <h1>Reading Log</h1>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body" th:object="${log}">
+                <dl>
+                    <dt>Title</dt>
+                    <dd th:text="*{title}"></dd>
+                    <dt>Author</dt>
+                    <dd th:text="*{author}"></dd>
+                    <dt>Created on</dt>
+                    <dd th:text="${#temporals.format(log.date, 'yyyy-MM-dd')}"></dd>
+                    <dt>Spent time</dt>
+                    <dd th:text="${log.spentTime + ' min'}"></dd>
+                    <dt>Reading Notes</dt>
+                    <dd th:text="*{note}"></dd>
+                </dl>
+                <form th:action="@{'/api/log/' + *{id}}" method="post" 
+                      class="d-inline">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+                </form>
+                <a th:href="@{'/log/' + *{id} + '?action=edit'}" class="btn btn-success">Edit</a>
+            </div>
+        </div>
+    </main>
+</body>

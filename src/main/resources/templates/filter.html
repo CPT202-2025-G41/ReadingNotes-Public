@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{fragments/layout :: layout(~{::main}, 'My Logs')}">
+<body>
+    <main class="container">
+        <div class="d-flex justify-content-between my-4">
+            <h1>Reading Logs</h1>
+        </div>
+
+        <div sec:authorize="hasRole('ADMIN')">
+            <form th:action="@{/log?action=review}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">User ID</label>
+                    <input type="number" name="user_id" class="form-control" placeholder="User ID" th:value="${filters?.user_id} ?: ''" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Oldest Creation Date</label>
+                    <input type="date" name="start_date" class="form-control" th:value="${filters?.start_date} ?: ''">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Newest Creation Date</label>
+                    <input type="date" name="end_date" class="form-control" th:value="${filters?.end_date} ?: ''">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+        <div sec:authorize="hasRole('USER')">
+            <form th:action="@{/log?action=filter}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="Title" th:value="${filters?.title} ?: ''">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Author</label>
+                    <input type="text" name="author" class="form-control" placeholder="Author" th:value="${filters?.author} ?: ''">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Oldest Creation Date</label>
+                    <input type="date" name="start_date" class="form-control" th:value="${filters?.start_date} ?: ''">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Newest Creation Date</label>
+                    <input type="date" name="end_date" class="form-control" th:value="${filters?.end_date} ?: ''">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Minimum Reading Time</label>
+                    <input type="number" name="min_time" class="form-control" placeholder="Minimum spent time" th:value="${filters?.min_time} ?: ''">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Maximum Reading Time</label>
+                    <input type="number" name="max_time" class="form-control" placeholder="Maximum spent time" th:value="${filters?.max_time} ?: ''">
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+        
+        <div th:if="${logs}" th:each="log : ${logs}" class="card mb-3">
+            <div class="card-body">
+                <h5 th:text="${log.title}" class="card-title"></h5>
+                <p th:text="${log.note}" class="card-text"></p>
+                <div class="text-muted small">
+                    <span th:text="${log.author}">Author</span> &#xb7; 
+                    <span th:text="${#temporals.format(log.date, 'yyyy-MM-dd')}">Date</span>
+                </div>
+                <div class="mt-2">
+                    <a th:href="@{'/log/' + ${log.id}}" 
+                       class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

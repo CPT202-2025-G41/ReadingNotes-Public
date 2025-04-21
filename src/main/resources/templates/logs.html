@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{fragments/layout :: layout(~{::main}, 'My Logs')}">
+<body class="logs-page">
+    <main class="container">
+        <div class="d-flex align-items-center justify-content-between my-4">
+            <h1>Reading Logs</h1>
+            <div>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/log?action=review}" class="btn btn-info">Filter</a>
+                <a sec:authorize="hasRole('USER')" th:href="@{/log?action=filter}" class="btn btn-info">Filter</a>
+                <a sec:authorize="hasRole('USER')" th:href="@{/log?action=create}" class="btn btn-success">New Log</a>
+            </div>
+        </div>
+        
+        <div th:each="log : ${logs}" class="card mb-3">
+            <div class="card-body">
+                <h5 th:text="${log.title}" class="card-title"></h5>
+                <p th:text="${log.note}" class="card-text"></p>
+                <div class="text-muted small">
+                    <span th:text="${log.author}">Author</span> &#xb7; 
+                    <span th:text="${#temporals.format(log.date, 'yyyy-MM-dd')}">Date</span>
+                </div>
+                <div class="mt-2">
+                    <a th:href="@{'/log/' + ${log.id}}" 
+                       class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
