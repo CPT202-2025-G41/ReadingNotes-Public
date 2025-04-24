@@ -119,4 +119,15 @@ public class ReadingLogViewController {
         }
     }
     
+    @GetMapping(params = "action=progress")
+    @PreAuthorize("hasRole('USER')")
+    public String viewProgress(
+            @AuthenticationPrincipal UserInfo principal,
+            Model model) {
+        List<Object[]> progress =
+            readingLogService.getTitleProgressList(principal.getId());
+        model.addAttribute("titles", progress);
+        return "progress";
+    }
+    
 }

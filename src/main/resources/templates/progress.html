@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{fragments/layout :: layout(~{::main}, 'Reading Progress')}">
+<body class="logs-page">
+    <main class="container">
+        <div class="d-flex align-items-center justify-content-between my-4">
+            <h1>My Reading Progress</h1>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Spent Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="title : ${titles}">
+                    <td th:text="${title[0]}"></td>
+                    <td th:text="${title[1]}"></td>
+                    <td>
+                        <form th:action="@{/log?action=filter}" method="post">
+                            <input type="hidden" name="title" th:value="${title[0]}">
+                            <input type="hidden" name="author" value="">
+                            <input type="hidden" name="start_date" value="">
+                            <input type="hidden" name="end_date" value="">
+                            <input type="hidden" name="min_time" value="">
+                            <input type="hidden" name="max_time" value="">
+                            <button type="submit" class="btn btn-sm btn-success">View Notes</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

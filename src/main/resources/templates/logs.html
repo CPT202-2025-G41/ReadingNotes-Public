@@ -8,6 +8,7 @@
             <h1>Reading Logs</h1>
             <div>
                 <a sec:authorize="hasRole('ADMIN')" th:href="@{/log?action=review}" class="btn btn-info">Filter</a>
+                <a sec:authorize="hasRole('USER')" th:href="@{/log?action=progress}" class="btn btn-info">Progress</a>
                 <a sec:authorize="hasRole('USER')" th:href="@{/log?action=filter}" class="btn btn-info">Filter</a>
                 <a sec:authorize="hasRole('USER')" th:href="@{/log?action=create}" class="btn btn-success">New Log</a>
             </div>
